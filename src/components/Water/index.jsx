@@ -23,6 +23,7 @@ export const Water = () => {
     WATER_LEVEL,
     WAVE_SPEED,
     WAVE_AMPLITUDE,
+    TEXTURE_SIZE,
     FOAM_DEPTH
   } = useControls("Water", {
     COLOR_BASE_NEAR: { value: "#00fccd", label: "Near" },
@@ -48,6 +49,13 @@ export const Water = () => {
       step: 0.05,
       label: "Wave Amplitude"
     },
+    TEXTURE_SIZE: {
+      value: 45,
+      min: 1,
+      max: 80,
+      step: 1,
+      label: "Texture Size"
+    },
     FOAM_DEPTH: {
       value: foamDepth,
       min: 0.01,
@@ -69,7 +77,8 @@ export const Water = () => {
     materialRef.current.uniforms.uColorFar.value = COLOR_FAR
     materialRef.current.uniforms.uWaveSpeed.value = WAVE_SPEED
     materialRef.current.uniforms.uWaveAmplitude.value = WAVE_AMPLITUDE
-  }, [COLOR_FAR, WAVE_SPEED, WAVE_AMPLITUDE])
+    materialRef.current.uniforms.uTextureSize.value = TEXTURE_SIZE
+  }, [COLOR_FAR, WAVE_SPEED, WAVE_AMPLITUDE, TEXTURE_SIZE])
 
   useFrame(({ clock }) => {
     if (!materialRef.current) return
@@ -98,7 +107,8 @@ export const Water = () => {
           uTime: { value: 0 },
           uColorFar: { value: COLOR_FAR },
           uWaveSpeed: { value: WAVE_SPEED },
-          uWaveAmplitude: { value: WAVE_AMPLITUDE }
+          uWaveAmplitude: { value: WAVE_AMPLITUDE },
+          uTextureSize: { value: TEXTURE_SIZE }
         }}
         color={COLOR_BASE_NEAR}
         transparent

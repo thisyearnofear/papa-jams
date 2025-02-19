@@ -7,6 +7,7 @@ varying vec2 vUv;
 uniform float uTime;
 uniform vec3 uColorNear;
 uniform vec3 uColorFar;
+uniform float uTextureSize;
 
 vec3 mod289(vec3 x) {
     return x - floor(x * (1.0 / 289.0)) * 289.0;
@@ -78,9 +79,10 @@ void main() {
 
     vec3 finalColor = csm_FragColor.rgb;
     vec3 alpha = vec3(1.0);
+    float textureSize = 100.0 - uTextureSize;
 
     // Generate noise for the base texture
-    float noiseBase = snoise(vUv * 150.0 + sin(uTime * 0.3));
+    float noiseBase = snoise(vUv * (textureSize * 2.8) + sin(uTime * 0.3));
     noiseBase = noiseBase * 0.5 + 0.5;
     vec3 colorBase = vec3(noiseBase);
 
@@ -89,7 +91,7 @@ void main() {
     foam = step(0.5, foam);  // binary step to create foam effect
 
     // Generate additional noise for waves
-    float noiseWaves = snoise(vUv * 60.0 + sin(uTime * -0.1));
+    float noiseWaves = snoise(vUv * textureSize + sin(uTime * -0.1));
     noiseWaves = noiseWaves * 0.5 + 0.5;
     vec3 colorWaves = vec3(noiseWaves);
 

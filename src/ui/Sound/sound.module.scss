@@ -11,10 +11,14 @@
 
   .toggle {
     all: unset;
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: nowrap;
     pointer-events: visible;
-    width: 1.36em;
+    width: max-content;
+    max-width: 1.36em;
     height: 1.36em;
     padding: calc(0.3em - 1px);
     background-color: var(--font-background);
@@ -26,6 +30,7 @@
 
     svg {
       width: 0.76em;
+      min-width: 0.76em;
       height: 0.76em;
 
       path {
@@ -40,6 +45,40 @@
       g.sound {
         transform: scale(0);
         opacity: 0;
+      }
+    }
+
+    .label {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      column-gap: 0.2em;
+      width: max-content;
+      font-family: var(--font-family);
+      font-size: 0.4em;
+      text-transform: uppercase;
+      padding-inline: 0.4em;
+      white-space: nowrap;
+
+      .word {
+        display: block;
+
+        .letter {
+          display: inline-block;
+          opacity: 0;
+          transform: translateY(50%) scale(0.5);
+        }
+      }
+    }
+
+    &:not(.enabled) {
+      animation: 20s ease-in-out infinite buttonLabelShow;
+
+      .label {
+        .word .letter {
+          animation: 20s cubic-bezier(0.75, -0.5, 0, 1.75) infinite letterShow;
+        }
       }
     }
 
@@ -63,6 +102,39 @@
     100% {
       opacity: 1;
       transform: translate(-1rem, -1rem);
+    }
+  }
+
+  @keyframes buttonLabelShow {
+    5% {
+      max-width: 1.36em;
+    }
+    7% {
+      max-width: 100%;
+    }
+    26% {
+      max-width: 100%;
+    }
+    28% {
+      max-width: 1.36em;
+    }
+  }
+  @keyframes letterShow {
+    6% {
+      opacity: 0;
+      transform: translateY(50%) scale(0.5);
+    }
+    8% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    25% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    27% {
+      opacity: 0;
+      transform: translateY(50%) scale(0.5);
     }
   }
 }

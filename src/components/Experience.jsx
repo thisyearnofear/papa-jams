@@ -30,7 +30,11 @@ export const Experience = () => {
 
       <Audio />
 
-      <CameraControls maxPolarAngle={Math.PI / 2.2} />
+      <CameraControls
+        maxPolarAngle={Math.PI / 2.2}
+        maxDistance={80}
+        minDistance={15}
+      />
 
       <color attach="background" args={[BACKGROUND]} />
       <fog attach="fog" args={[BACKGROUND, 120, 150]} />
