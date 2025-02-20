@@ -1,10 +1,4 @@
-#ifdef GL_ES
-precision mediump float;
-#endif
-
-varying vec2 vUv;
 varying vec3 csm_vPositionW;
-varying vec3 csm_vNormalW;
 
 uniform float uTime;
 uniform float uWaterLevel;
@@ -15,14 +9,15 @@ uniform vec3 uMossColor;
 
 void main() {
     
+    // Set the current color as the base color
     vec3 baseColor = csm_DiffuseColor.rgb;
 
-    // Moss Color
+    // Paint lower Y with a different color to simulate moss
     float mossFactor = smoothstep(uWaterLevel + 0.3, uWaterLevel - 0.05, csm_vPositionW.y);
     baseColor = mix(baseColor, uMossColor, mossFactor);
 
     // Foam Effect
-    // Modify the y position based on sine function, oscillating up and down over time
+    // Get the y position based on sine function, oscillating up and down over time
     float sineOffset = sin(uTime * uWaveSpeed) * uWaveAmplitude;
 
     // The current dynamic water height
@@ -33,7 +28,7 @@ void main() {
 
     vec3 stripeColor = vec3(1.0, 1.0, 1.0); // White stripe
 
-    
+    // Apply the foam strip to baseColor    
     vec3 finalColor = mix(baseColor - stripe, stripeColor, stripe);
     
     // Output the final color

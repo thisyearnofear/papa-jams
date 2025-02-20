@@ -1,8 +1,4 @@
-#ifdef GL_ES
-precision mediump float;
-#endif
-
-varying vec2 vUv;
+varying vec2 csm_vUv;
 
 uniform float uTime;
 uniform vec3 uColorNear;
@@ -77,12 +73,17 @@ float snoise(vec2 v) {
 
 void main() {
 
+    // Set the current color as the base color.
     vec3 finalColor = csm_FragColor.rgb;
+    
+    // Set an initial alpha value
     vec3 alpha = vec3(1.0);
+
+    // Invert texture size
     float textureSize = 100.0 - uTextureSize;
 
     // Generate noise for the base texture
-    float noiseBase = snoise(vUv * (textureSize * 2.8) + sin(uTime * 0.3));
+    float noiseBase = snoise(csm_vUv * (textureSize * 2.8) + sin(uTime * 0.3));
     noiseBase = noiseBase * 0.5 + 0.5;
     vec3 colorBase = vec3(noiseBase);
 
@@ -91,7 +92,7 @@ void main() {
     foam = step(0.5, foam);  // binary step to create foam effect
 
     // Generate additional noise for waves
-    float noiseWaves = snoise(vUv * textureSize + sin(uTime * -0.1));
+    float noiseWaves = snoise(csm_vUv * textureSize + sin(uTime * -0.1));
     noiseWaves = noiseWaves * 0.5 + 0.5;
     vec3 colorWaves = vec3(noiseWaves);
 
@@ -105,18 +106,18 @@ void main() {
     vec3 combinedEffect = min(waveEffect + foam, 1.0);
 
     // Applying a gradient based on distance
-    float vignette = length(vUv - 0.5) * 1.5;
+    float vignette = length(csm_vUv - 0.5) * 1.5;
     vec3 baseEffect = smoothstep(0.1, 0.3, vec3(vignette));
     vec3 baseColor = mix(finalColor, uColorFar, baseEffect);
 
     combinedEffect = min(waveEffect + foam, 1.0);
     combinedEffect = mix(combinedEffect, vec3(0.0), baseEffect);
 
+    // Sample foam to maintain constant alpha of 1.0
     vec3 foamEffect = mix(foam, vec3(0.0), baseEffect);
     
     finalColor = (1.0 - combinedEffect) * baseColor + combinedEffect;
-    //finalColor = combinedEffect;
-
+    
     // Managing the alpha based on the distance
     alpha = mix(vec3(0.2), vec3(1.0), foamEffect);
     alpha = mix(alpha, vec3(1.0), vignette + 0.5);

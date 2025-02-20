@@ -11,15 +11,16 @@ import vertexShader from "./shaders/vertex.glsl"
 import fragmentShader from "./shaders/fragment.glsl"
 
 export function Terrain() {
+  // Global states
   const waterLevel = useStore((state) => state.waterLevel)
   const waveSpeed = useStore((state) => state.waveSpeed)
   const waveAmplitude = useStore((state) => state.waveAmplitude)
   const foamDepth = useStore((state) => state.foamDepth)
 
-  const materialRef = useRef()
-
+  // Load model
   const { nodes } = useGLTF("/models/terrain.glb")
 
+  // Interactive color parameters
   const { SAND_BASE_COLOR, GRASS_BASE_COLOR, UNDERWATER_BASE_COLOR } =
     useControls("Terrain", {
       SAND_BASE_COLOR: { value: "#ff9900", label: "Sand" },
@@ -27,6 +28,7 @@ export function Terrain() {
       UNDERWATER_BASE_COLOR: { value: "#118a4f", label: "Underwater" }
     })
 
+  // Convert color hex values to Three.js Color objects
   const GRASS_COLOR = useMemo(
     () => new THREE.Color(GRASS_BASE_COLOR),
     [GRASS_BASE_COLOR]
@@ -36,6 +38,10 @@ export function Terrain() {
     [UNDERWATER_BASE_COLOR]
   )
 
+  // Material
+  const materialRef = useRef()
+
+  // Update shader uniforms whenever control values change
   useEffect(() => {
     if (!materialRef.current) return
 
@@ -54,6 +60,7 @@ export function Terrain() {
     foamDepth
   ])
 
+  // Update shader time
   useFrame(({ clock }) => {
     if (!materialRef.current) return
     materialRef.current.uniforms.uTime.value = clock.getElapsedTime()
@@ -80,7 +87,12 @@ export function Terrain() {
         />
       </mesh>
 
-      <mesh rotation-x={-Math.PI / 2} position={[0, -0.01, 0]} receiveShadow>
+      <mesh
+        rotation-x={-Math.PI / 2}
+        position={[0, -0.01, 0]} // I moved it down to avoid plane collision
+        receiveShadow
+        material={nodes.plane.material}
+      >
         <planeGeometry args={[256, 256]} />
         <meshStandardMaterial color={UNDERWATER_BASE_COLOR} />
       </mesh>

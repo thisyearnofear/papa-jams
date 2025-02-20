@@ -5,6 +5,7 @@ import { Scene } from "./Scene"
 import { Audio } from "./Audio"
 
 export const Experience = () => {
+  // Interactive color parameters
   const { BACKGROUND } = useControls("Sky", {
     BACKGROUND: { value: "#fcffdc", label: "Background" }
   })
@@ -13,6 +14,7 @@ export const Experience = () => {
     <>
       <Environment preset="forest" environmentIntensity={0.5} />
       <ambientLight intensity={1.0} />
+
       <directionalLight
         position={[13, 5, 5]}
         castShadow

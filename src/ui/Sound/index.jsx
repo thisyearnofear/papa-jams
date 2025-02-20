@@ -9,7 +9,7 @@ export const Sound = () => {
   const audioEnabled = useStore((state) => state.audioEnabled)
   const setAudioEnabled = useStore((state) => state.setAudioEnabled)
 
-  const handleVolume = () => {
+  const handleSound = () => {
     setAudioEnabled(!audioEnabled)
   }
 
@@ -17,7 +17,7 @@ export const Sound = () => {
     <div className={s.volume}>
       <button
         className={clsx(s.toggle, { [s.enabled]: audioEnabled })}
-        onClick={() => handleVolume()}
+        onClick={() => handleSound()}
       >
         <Volume />
         <div className={s.label}>

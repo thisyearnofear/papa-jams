@@ -1,10 +1,4 @@
-#ifdef GL_ES
-precision mediump float;
-#endif
-
-varying vec2 vUv;
 varying vec3 csm_vPositionW;
-varying vec3 csm_vNormalW;
 
 uniform float uTime;
 uniform float uWaterLevel;
@@ -16,22 +10,23 @@ uniform vec3 uUnderwaterColor;
 
 void main() {
     
+    // Set the current color as the base color
     vec3 baseColor = csm_DiffuseColor.rgb;
 
-    // Darken color by depth
+    // Darken the base color at lower Y values to simulate wet sand
     float heightFactor = smoothstep(uWaterLevel + 1.0, uWaterLevel, csm_vPositionW.y);
-    baseColor = mix(baseColor, baseColor * 0.7, heightFactor);
+    baseColor = mix(baseColor, baseColor * 0.5, heightFactor);
     
-    // Ocean Bottom
+    // Blend underwater color with base planeMesh to add depth to the ocean bottom
     float oceanFactor = smoothstep(min(uWaterLevel - 0.4, 0.2), 0.0, csm_vPositionW.y);
     baseColor = mix(baseColor, uUnderwaterColor, oceanFactor);
 
-    // Grass on top
+    // Add grass to the higher areas of the terrain
     float grassFactor = smoothstep(uWaterLevel + 0.8, max(uWaterLevel + 1.6, 3.0), csm_vPositionW.y);
     baseColor = mix(baseColor, uGrassColor, grassFactor);
     
     // Foam Effect
-    // Modify the y position based on sine function, oscillating up and down over time
+    // Get the y position based on sine function, oscillating up and down over time
     float sineOffset = sin(uTime * uWaveSpeed) * uWaveAmplitude;
 
     // The current dynamic water height
@@ -42,7 +37,7 @@ void main() {
 
     vec3 stripeColor = vec3(1.0, 1.0, 1.0); // White stripe
 
-    
+    // Apply the foam strip to baseColor    
     vec3 finalColor = mix(baseColor - stripe, stripeColor, stripe);
     
     // Output the final color

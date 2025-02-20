@@ -10,13 +10,13 @@ import vertexShader from "./shaders/vertex.glsl"
 import fragmentShader from "./shaders/fragment.glsl"
 
 export const Water = () => {
+  // Global states
   const waterLevel = useStore((state) => state.waterLevel)
   const waveSpeed = useStore((state) => state.waveSpeed)
   const waveAmplitude = useStore((state) => state.waveAmplitude)
   const foamDepth = useStore((state) => state.foamDepth)
 
-  const materialRef = useRef()
-
+  // Interactive water parameters
   const {
     COLOR_BASE_NEAR,
     COLOR_BASE_FAR,
@@ -65,12 +65,16 @@ export const Water = () => {
     }
   })
 
-  // Convert color hex values to three.js Color objects
+  // Convert color hex values to Three.js Color objects
   const COLOR_FAR = useMemo(
     () => new THREE.Color(COLOR_BASE_FAR),
     [COLOR_BASE_FAR]
   )
 
+  // Material
+  const materialRef = useRef()
+
+  // Update shader uniforms whenever control values change
   useEffect(() => {
     if (!materialRef.current) return
 
@@ -80,13 +84,8 @@ export const Water = () => {
     materialRef.current.uniforms.uTextureSize.value = TEXTURE_SIZE
   }, [COLOR_FAR, WAVE_SPEED, WAVE_AMPLITUDE, TEXTURE_SIZE])
 
-  useFrame(({ clock }) => {
-    if (!materialRef.current) return
-    materialRef.current.uniforms.uTime.value = clock.getElapsedTime()
-  })
-
+  // Update global states
   useEffect(() => {
-    // Update state
     useStore.setState(() => ({
       waterLevel: WATER_LEVEL,
       waveSpeed: WAVE_SPEED,
@@ -94,6 +93,12 @@ export const Water = () => {
       foamDepth: FOAM_DEPTH
     }))
   }, [WAVE_SPEED, WAVE_AMPLITUDE, WATER_LEVEL, FOAM_DEPTH])
+
+  // Update shader time
+  useFrame(({ clock }) => {
+    if (!materialRef.current) return
+    materialRef.current.uniforms.uTime.value = clock.getElapsedTime()
+  })
 
   return (
     <mesh rotation-x={-Math.PI / 2} position-y={WATER_LEVEL}>
@@ -112,6 +117,7 @@ export const Water = () => {
         }}
         color={COLOR_BASE_NEAR}
         transparent
+        opacity={0.4}
       />
     </mesh>
   )

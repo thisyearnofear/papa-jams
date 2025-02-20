@@ -11,25 +11,31 @@ import vertexShader from "./shaders/vertex.glsl"
 import fragmentShader from "./shaders/fragment.glsl"
 
 export function Rocks() {
+  // Global states
   const waterLevel = useStore((state) => state.waterLevel)
   const waveSpeed = useStore((state) => state.waveSpeed)
   const waveAmplitude = useStore((state) => state.waveAmplitude)
   const foamDepth = useStore((state) => state.foamDepth)
 
-  const materialRef = useRef()
-
+  // Load model
   const { nodes } = useGLTF("/models/rocks.glb")
 
+  // Interactive color parameters
   const { ROCK_BASE_COLOR, MOSS_BASE_COLOR } = useControls("Rocks", {
     ROCK_BASE_COLOR: { value: "#b2baa0", label: "Color" },
     MOSS_BASE_COLOR: { value: "#8aa72d", label: "Moss" }
   })
 
+  // Convert color hex values to Three.js Color objects
   const MOSS_COLOR = useMemo(
     () => new THREE.Color(MOSS_BASE_COLOR),
     [MOSS_BASE_COLOR]
   )
 
+  // Material
+  const materialRef = useRef()
+
+  // Update shader uniforms whenever control values change
   useEffect(() => {
     if (!materialRef.current) return
 
@@ -40,6 +46,7 @@ export function Rocks() {
     materialRef.current.uniforms.uFoamDepth.value = foamDepth
   }, [MOSS_COLOR, waterLevel, waveSpeed, waveAmplitude, foamDepth])
 
+  // Update shader time
   useFrame(({ clock }) => {
     if (!materialRef.current) return
     materialRef.current.uniforms.uTime.value = clock.getElapsedTime()

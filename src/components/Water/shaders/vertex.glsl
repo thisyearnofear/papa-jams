@@ -1,8 +1,4 @@
-#ifdef GL_ES
-precision mediump float;
-#endif
-
-varying vec2 vUv;
+varying vec2 csm_vUv;
 
 uniform float uTime;
 uniform float uWaveSpeed;
@@ -10,7 +6,8 @@ uniform float uWaveAmplitude;
 
 void main() {
   
-  vUv = uv;
+  // Send the uv coordinates to fragmentShader
+  csm_vUv = uv;
 
   // Modify the y position based on sine function, oscillating up and down over time
   float sineOffset = sin(uTime * uWaveSpeed) * uWaveAmplitude;
