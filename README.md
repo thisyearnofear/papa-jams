@@ -3,7 +3,7 @@
 _A cartoon-style water effect with custom shaders, optimized for performance,
 built with React Three Fiber._
 
-![Stylized Water](https://github.com/user-attachments/assets/7b0f4d48-07fb-4e38-94a7-00d314203ef4)
+https://github.com/user-attachments/assets/7b0f4d48-07fb-4e38-94a7-00d314203ef4
 
 [Article on Codrops](https://tympanus.net/codrops/?p=)
 
