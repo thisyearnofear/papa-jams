@@ -1,1 +1,33 @@
+# Stylized Water with React Three Fiber
 
+_A cartoon-style water effect with custom shaders, optimized for performance,
+built with React Three Fiber._
+
+![Image Title](https://generative-placeholders.glitch.me/image?width=800&height=600")
+
+[Article on Codrops](https://tympanus.net/codrops/?p=)
+
+[Demo](https://stylized-water.vercel.app/)
+
+## Installation
+
+Run this demo on a
+[local server](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/set_up_a_local_testing_server).
+
+## Credits
+
+- [Custom Shader Material by Faraz Shaikh](https://github.com/FarazzShaikh/THREE-CustomShaderMaterial)
+
+## Misc
+
+Follow _Author_: [Instagram](https://instagram.com/thaslle),
+[GitHub](https://github.com/thaslle/)
+
+Follow Codrops: [Bluesky](https://bsky.app/profile/codrops.bsky.social),
+[Facebook](http://www.facebook.com/codrops),
+[GitHub](https://github.com/codrops),
+[Instagram](https://www.instagram.com/codropsss/), [X](http://www.x.com/codrops)
+
+## License
+
+[MIT](LICENSE)
