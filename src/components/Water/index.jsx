@@ -117,7 +117,6 @@ export const Water = () => {
         }}
         color={COLOR_BASE_NEAR}
         transparent
-        opacity={0.4}
       />
     </mesh>
   )

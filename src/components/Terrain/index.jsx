@@ -89,9 +89,8 @@ export function Terrain() {
 
       <mesh
         rotation-x={-Math.PI / 2}
-        position={[0, -0.01, 0]} // I moved it down to avoid plane collision
+        position={[0, -0.01, 0]} // Moved it down slightly to avoid the odd visual glitch from plane collision
         receiveShadow
-        material={nodes.plane.material}
       >
         <planeGeometry args={[256, 256]} />
         <meshStandardMaterial color={UNDERWATER_BASE_COLOR} />

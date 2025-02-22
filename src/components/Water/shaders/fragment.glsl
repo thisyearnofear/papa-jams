@@ -5,42 +5,9 @@ uniform vec3 uColorNear;
 uniform vec3 uColorFar;
 uniform float uTextureSize;
 
-vec3 mod289(vec3 x) {
-    return x - floor(x * (1.0 / 289.0)) * 289.0;
-}
-
-vec2 mod289(vec2 x) {
-    return x - floor(x * (1.0 / 289.0)) * 289.0;
-}
-
-vec3 permute(vec3 x) {
-    return mod289(((x * 34.0) + 1.0) * x);
-}
-
-float random(in vec2 st) {
-    return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
-}
-
-vec2 random2(vec2 p) {
-    return fract(sin(vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3))))*43758.5453);
-}
-
-float noise (in vec2 st) {
-    vec2 i = floor(st);
-    vec2 f = fract(st);
-
-    // Four corners in 2D of a tile
-    float a = random(i);
-    float b = random(i + vec2(1.0, 0.0));
-    float c = random(i + vec2(0.0, 1.0));
-    float d = random(i + vec2(1.0, 1.0));
-
-    vec2 u = f * f * (3.0 - 2.0 * f);
-
-    return mix(a, b, u.x) +
-            (c - a)* u.y * (1.0 - u.x) +
-            (d - b) * u.x * u.y;
-}
+vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
 
 float snoise(vec2 v) {
     const vec4 C = vec4(0.211324865405187,  // (3.0-sqrt(3.0))/6.0
@@ -100,7 +67,9 @@ void main() {
     float threshold = 0.6 + 0.01 * sin(uTime * 2.0);   // threshold for waves oscillates between 0.6 and 0.61
     vec3 waveEffect = 1.0 - (smoothstep(threshold + 0.03, threshold + 0.032, colorWaves) + 
                             smoothstep(threshold, threshold - 0.01, colorWaves));
-    waveEffect = step(0.5, waveEffect);  // binary step to generate wave pattern
+
+    // Binary step to increase the wave pattern thickness
+    waveEffect = step(0.5, waveEffect);
 
     // Combine wave and foam effects
     vec3 combinedEffect = min(waveEffect + foam, 1.0);
@@ -116,6 +85,7 @@ void main() {
     // Sample foam to maintain constant alpha of 1.0
     vec3 foamEffect = mix(foam, vec3(0.0), baseEffect);
     
+    // Set the final color
     finalColor = (1.0 - combinedEffect) * baseColor + combinedEffect;
     
     // Managing the alpha based on the distance
