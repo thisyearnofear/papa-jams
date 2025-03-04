@@ -5,7 +5,7 @@ built with React Three Fiber._
 
 https://github.com/user-attachments/assets/7b0f4d48-07fb-4e38-94a7-00d314203ef4
 
-[Article on Codrops](https://tympanus.net/codrops/?p=)
+[Article on Codrops](https://tympanus.net/codrops/2025/03/04/creating-stylized-water-effects-with-react-three-fiber/)
 
 [Demo](https://stylized-water.vercel.app/)
 
@@ -20,7 +20,7 @@ Run this demo on a
 
 ## Misc
 
-Follow _Author_: [Instagram](https://instagram.com/thaslle),
+Follow Thalles: [Instagram](https://instagram.com/thaslle),
 [GitHub](https://github.com/thaslle/)
 
 Follow Codrops: [Bluesky](https://bsky.app/profile/codrops.bsky.social),
