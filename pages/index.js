@@ -1,18 +1,21 @@
-import clsx from "clsx"
+import dynamic from "next/dynamic"
 import { Suspense } from "react"
+import clsx from "clsx"
 import { Canvas } from "@react-three/fiber"
 import { AdaptiveDpr } from "@react-three/drei"
 import { Leva } from "leva"
 
-import { Experience } from "./components/Experience"
-import { UI } from "./ui"
-import { Loading } from "./ui/Loading"
+// Dynamically import components that use Three.js
+const Experience = dynamic(() => import("../components/Experience"), {
+  ssr: false
+})
+const UI = dynamic(() => import("../ui"), { ssr: false })
+const Loading = dynamic(() => import("../ui/Loading"), { ssr: false })
 
-import { useStore } from "./hooks/useStore"
+import { useStore } from "../hooks/useStore"
+import s from "../ui/ui.module.scss"
 
-import s from "./ui/ui.module.scss"
-
-function App() {
+export default function Home() {
   const ready = useStore((state) => state.ready)
 
   return (
@@ -33,5 +36,3 @@ function App() {
     </>
   )
 }
-
-export default App

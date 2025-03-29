@@ -6,7 +6,7 @@ import { useStore } from "../../hooks/useStore"
 
 import s from "./loading.module.scss"
 
-export const Loading = () => {
+const Loading = () => {
   const { progress, active } = useProgress()
   const [showLoader, setShowLoader] = useState(true)
 
@@ -46,3 +46,5 @@ export const Loading = () => {
     )
   )
 }
+
+export default Loading

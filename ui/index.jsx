@@ -1,7 +1,7 @@
 import { Sound } from "./Sound"
 import s from "./ui.module.scss"
 
-export const UI = () => {
+const UI = () => {
   return (
     <div className={s.ui}>
       <div className={s.top}>
@@ -10,3 +10,5 @@ export const UI = () => {
     </div>
   )
 }
+
+export default UI
